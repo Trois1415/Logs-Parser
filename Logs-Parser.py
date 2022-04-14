@@ -1,4 +1,7 @@
 from tkinter import *
+#Will be added :
+#-Halfscreens (top, bottom, left, right)
+#-Quartescreens
 
 class MOVE_WINDOW():
 	def __init__(self, window, element):
