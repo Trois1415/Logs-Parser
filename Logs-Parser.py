@@ -24,6 +24,12 @@ class MOVE_WINDOW():
 
 		self.new_pos = f'+{event.x_root + self.xwin}+{event.y_root + self.ywin}'
 		self.root.geometry(self.new_pos)
+
+		global past_size
+		if event.y_root + self.ywin < 0:
+			past_size = self.root.geometry(f'+{event.x_root + self.xwin}+0')
+		else:
+			past_size = self.root.geometry()
 		
 		self.element.bind('<ButtonRelease-1>', lambda event: self.release_window(event))
 
