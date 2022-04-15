@@ -47,9 +47,9 @@ class MOVE_WINDOW():
 		self.height = self.root.winfo_screenheight()
 
 		if event.x_root < 3 and event.y_root < 3:
-			default_up_left(self.width, self.height)
+			default_top_left(self.width, self.height)
 		elif event.x_root > self.width - 3 and event.y_root < 3:
-			default_up_right(self.width, self.height)
+			default_top_right(self.width, self.height)
 		elif event.x_root < 3 and event.y_root > self.height - 3:
 			default_bottom_left(self.width, self.height)
 		elif event.x_root > self.width - 3 and event.y_root > self.height - 3:
@@ -63,7 +63,7 @@ class MOVE_WINDOW():
 		
 		self.bind_wait()
 
-def default_up_left(width, height):
+def default_top_left(width, height):
 	global past_size
 	global quarter
 	if not quarter:
@@ -73,7 +73,7 @@ def default_up_left(width, height):
 		root.geometry(past_size)
 	quarter = not quarter
 
-def default_up_right(width, height):
+def default_top_right(width, height):
 	global past_size
 	global quarter
 	if not quarter:
