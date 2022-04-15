@@ -14,6 +14,13 @@ class MOVE_WINDOW():
 		global maximized
 		if maximized:	maximize()
 
+		global quarter
+		global half
+		if quarter or half:
+			global past_size
+			self.root.geometry(past_size)
+			quarter = half = False
+
 		self.xwin = self.root.winfo_x() - event.x_root
 		self.ywin = self.root.winfo_y() - event.y_root
 
@@ -35,9 +42,87 @@ class MOVE_WINDOW():
 
 	def release_window(self, event):
 		self.root.config(cursor='arrow')
-		if event.y_root < 3:	maximize()
+
+		self.width = self.root.winfo_screenwidth()
+		self.height = self.root.winfo_screenheight()
+
+		if event.x_root < 3 and event.y_root < 3:
+			default_top_left(self.width, self.height)
+		elif event.x_root > self.width - 3 and event.y_root < 3:
+			default_top_right(self.width, self.height)
+		elif event.x_root < 3 and event.y_root > self.height - 3:
+			default_bottom_left(self.width, self.height)
+		elif event.x_root > self.width - 3 and event.y_root > self.height - 3:
+			default_bottom_right(self.width, self.height)
+		elif event.x_root < 3 :
+			default_full_left(self.width, self.height)
+		elif event.x_root > self.width - 3 :
+			default_full_right(self.width, self.height)
+		elif event.y_root < 3:
+			maximize()
 		
 		self.bind_wait()
+
+def default_top_left(width, height):
+	global past_size
+	global quarter
+	if not quarter:
+		past_size = root.geometry()
+		root.geometry(f'{int(width/2)}x{int(height/2)}+0+0')
+	else:
+		root.geometry(past_size)
+	quarter = not quarter
+
+def default_top_right(width, height):
+	global past_size
+	global quarter
+	if not quarter:
+		past_size = root.geometry()
+		root.geometry(f'{int(width/2)}x{int(height/2)}+{int(width/2)}+0') 
+	else:
+		root.geometry(past_size)
+	quarter = not quarter
+
+def default_bottom_left(width, height):
+	global past_size
+	global quarter
+	if not quarter:
+		past_size = root.geometry()
+		root.geometry(f'{int(width/2)}x{int(height/2)}+0+{int(height/2)}') 
+	else:
+		root.geometry(past_size)
+	quarter = not quarter
+
+def default_bottom_right(width, height):
+	global past_size
+	global quarter
+	if not quarter:
+		past_size = root.geometry()
+		root.geometry(f'{int(width/2)}x{int(height/2)}+{int(width/2)}+{int(height/2)}') 
+	else:
+		root.geometry(past_size)
+	quarter = not quarter
+
+def default_full_left(width, height):
+	global past_size
+	global half
+	if not half:
+		past_size = root.geometry()
+		root.geometry(f'{int(width/2)}x{int(height)}+0+0')
+	else:
+		root.geometry(past_size)
+	half = not half
+
+def default_full_right(width, height):
+	global past_size
+	global half
+	if not half:
+		past_size = root.geometry()
+		root.geometry(f'{int(width/2)}x{int(height)}+{int(width/2)}+0')
+	else:
+		root.geometry(past_size)
+	half = not half
+
 
 def hover(button, bg):
 	button.config(bg=bg) 
@@ -150,6 +235,8 @@ label = Label(title_bar, text='Hello world', fg='white', bg='black')
 minimize_button = Button(root, bg='black', fg='white', text='⎯', borderwidth=0)
 maximize_button = Button(root, bg='black', fg='white', text='◻', borderwidth=0)
 maximized = False
+quarter = False
+half = False
 past_size = root.geometry()
 
 close_button = Button(root, bg='black', fg='white', text='🞩', borderwidth=0)
